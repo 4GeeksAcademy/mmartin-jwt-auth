@@ -1,0 +1,118 @@
+body{
+    background-color: #1b1340;        
+}
+
+.brand{
+    font-size: xx-large;
+    padding: 10px;
+    font-weight: 700;
+    color:#6d4aff;
+    text-decoration: none;
+}
+
+.login{
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+    height: 100vh;   
+    margin: 0;   
+}
+
+.dashboard{
+    display: flex;
+    justify-content: center; 
+    height: 100vh;   
+    margin: 0;   
+}
+.logForm{
+    position: relative;
+    background-color:#ffffff ;
+    border-radius: 20px;
+    height: fit-content;
+    width: fit-content;
+    padding:20px;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    background-color: #ffffff;
+}
+
+.secretlogger{
+        position: relative;
+        background-color:#ffffff ;
+        border-radius: 20px;
+        height: fit-content;
+        width: 90vw;
+        padding:20px;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        text-align: center;
+        margin-top: 10vh;
+}
+ .secretlogger input {
+    width: 80%;
+    background-color: #e5e1f6;
+ }
+.title{
+    font-size: x-large;
+    padding: 10px;
+    font-weight: 700;
+}
+
+button{
+    margin-top: 10px;
+    color: white;
+    font-size: large;
+    font-weight: 700;
+    padding:10px;
+    border-radius: 10px;
+    background-color:#6d4aff ;
+}
+
+button:hover{
+    background-color:#4f24fa ;
+}
+
+.logForm input,.secretlogger input{
+    padding:10px 5px 10px 5px;
+    margin:5px;
+    background-color: #e5e1f6;
+}
+
+.logForm label{
+    font-size: large;
+    font-weight: 700;
+    margin:8px;
+}
+
+.content{
+    text-align:left;
+    margin-top: 5vh;
+    font-size: x-large;
+    font-weight: 700;
+}
+
+
+.buttonSet{
+    align-items: center;
+    align-content: center;
+}
+
+.darkpurple{
+    background-color: #6d4aff;
+
+}
+
+.icons{
+    color: #6d4aff;
+}
+
+.icons:hover{
+    cursor: pointer;
+}
+
+/* #6d4aff
+#f5f4f2
+#ffffff
+#e5e1f6 */
