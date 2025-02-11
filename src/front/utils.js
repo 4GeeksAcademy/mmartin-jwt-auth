@@ -1,8 +1,11 @@
+
+const BASE_URL = 'https://sturdy-space-carnival-4qjrgprwrp2p69-3001.app.github.dev'//Replace with your URL
+
 export const signUp = (dispatch) => async (email, password) => {
   dispatch({ type: 'signup_request' });
 
   try {
-    const response = await fetch('https://sturdy-space-carnival-4qjrgprwrp2p69-3001.app.github.dev' + '/api/signup',
+    const response = await fetch(BASE_URL + '/api/signup',
       {
         method: "POST",
         headers: { 'content-type': "application/json" },
@@ -28,7 +31,7 @@ export const logIn = (dispatch) => async (email, password) => {
   dispatch({ type: 'login_request' });
 
   try {
-    const response = await fetch('https://sturdy-space-carnival-4qjrgprwrp2p69-3001.app.github.dev' + '/api/token',
+    const response = await fetch(BASE_URL + '/api/token',
       {
         method: "POST",
         headers: { 'content-type': "application/json" },
@@ -56,7 +59,7 @@ export const getSecrets = (dispatch) => async (auth) => {
   dispatch({ type: 'secret_request' });
 
   try {
-    const response = await fetch('https://sturdy-space-carnival-4qjrgprwrp2p69-3001.app.github.dev' + '/api/private',
+    const response = await fetch(BASE_URL + '/api/private',
       {
         method: "GET",
         headers: { 'content-type': "application/json", 'Authorization': `Bearer ${auth}` },
@@ -91,7 +94,7 @@ export const allowNav = (dispatch) => () => {
 export const addSecret = (dispatch) => async (auth, message) => {
   dispatch({ type: 'add_secret_request' });
   try {
-    const response = await fetch('https://sturdy-space-carnival-4qjrgprwrp2p69-3001.app.github.dev' + '/api/private',
+    const response = await fetch(BASE_URL + '/api/private',
       {
         method: "POST",
         headers: { 'content-type': "application/json", 'Authorization': `Bearer ${auth}` },
@@ -115,7 +118,7 @@ export const addSecret = (dispatch) => async (auth, message) => {
 export const deleteSecret = (dispatch) => async (auth, id) => {
   dispatch({ type: 'delete_secret_request' });
   try {
-    const response = await fetch('https://sturdy-space-carnival-4qjrgprwrp2p69-3001.app.github.dev' + '/api/private',
+    const response = await fetch(BASE_URL + '/api/private',
       {
         method: "DELETE",
         headers: { 'content-type': "application/json", 'Authorization': `Bearer ${auth}` },
@@ -138,7 +141,7 @@ export const deleteSecret = (dispatch) => async (auth, id) => {
 export const editSecret = (dispatch) => async (auth, id, message) => {
   dispatch({ type: 'edit_secret_request' });
   try {
-    const response = await fetch('https://sturdy-space-carnival-4qjrgprwrp2p69-3001.app.github.dev' + '/api/private',
+    const response = await fetch(BASE_URL + '/api/private',
       {
         method: "PUT",
         headers: { 'content-type': "application/json", 'Authorization': `Bearer ${auth}` },

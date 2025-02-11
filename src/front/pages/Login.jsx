@@ -31,7 +31,7 @@ const Login = () => {
         if (store.login_status === 400) {
             setResult('Something went wrong, check your email and/or password')
         }
-    }, [dispatch, store.secrets]);
+    }, [dispatch, store.secrets, store.login_status]);
     return (
         <div className="login">
             <div className="logForm">
