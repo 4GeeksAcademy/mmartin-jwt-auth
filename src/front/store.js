@@ -36,6 +36,7 @@ export default function storeReducer(store, action = {}) {
     case 'secret_success':
       return { ...store, login: true, secrets: [...action.payload.data], dashboard_status: 200 }
     case 'secret_fail':
+      localStorage.clear()
       return { ...store, dashboard_status: 400 }
     case 'logout_request':
       localStorage.clear()

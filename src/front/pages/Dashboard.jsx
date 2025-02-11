@@ -11,6 +11,7 @@ const Dashboard = () => {
     const [edit, setEdit] = useState({ message: '', id: '' })
     const [result, setResult] = useState('')
     let modalInstance = null;
+    const goTo = useNavigate()
     const onRefresh = async () => {
         await getSecrets(dispatch)(store.token)
     }
@@ -61,8 +62,9 @@ const Dashboard = () => {
         allowNav(dispatch)()
         if (store.dashboard_status == 400) {
             setResult('Something went wrong, login again')
+            goTo('/')
         }
-    }, []);
+    }, [store.dashboard_status]);
 
 
     return (
