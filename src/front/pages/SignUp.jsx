@@ -5,24 +5,27 @@ const SignUp = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const { store, dispatch } = useGlobalReducer()
+    const [result, setResult] = useState('')
 
     const handleSubmit = async () => {
         if (email && password) {
             await signUp(dispatch)(email, password);
-            if (store.signup_alert === 200) {
-                alert('Account created successfully, go to the login page')
-                setPassword('')
-                setEmail('')
-            } else if (store.signup_alert === 400) {
-                alert('Something went wrong, email already in use')
-            } else if (store.signup_alert === 500) {
-                alert('Server error, try again later')
-            }
         } else {
             alert('Please input a valid email and password')
-            return
         }
     }
+
+    useEffect(() => {
+        if (store.signup_status === 201) {
+            setResult('Account created successfully, go to the login page')
+            setPassword('')
+            setEmail('')
+        } else if (store.signup_status === 400) {
+            setResult('Something went wrong, email already in use')
+        } else if (store.signup_status === 500) {
+            setResult('Server error, try again later')
+        }
+    }, [store.signup_status])
 
     return (
         <div className="login">
@@ -35,6 +38,8 @@ const SignUp = () => {
                     <input type="password" value={password} placeholder="Create a password..." onChange={(e) => setPassword(e.target.value)}></input>
                 </div>
                 <button onClick={handleSubmit}>Sign Up</button>
+
+                <div className="fs-5">{result}</div>
             </div>
         </div>
     )

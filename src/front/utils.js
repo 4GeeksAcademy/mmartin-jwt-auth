@@ -83,15 +83,19 @@ export const logOut = (dispatch) => () => {
   dispatch({ type: 'logout_request' });
 }
 
+export const allowNav = (dispatch) => () => {
+  dispatch({ type: 'allowNav' });
+}
 
-export const addSecret = (dispatch) => async (auth,message) => {
+
+export const addSecret = (dispatch) => async (auth, message) => {
   dispatch({ type: 'add_secret_request' });
   try {
     const response = await fetch('https://sturdy-space-carnival-4qjrgprwrp2p69-3001.app.github.dev' + '/api/private',
       {
         method: "POST",
         headers: { 'content-type': "application/json", 'Authorization': `Bearer ${auth}` },
-        body: JSON.stringify({"message": message})
+        body: JSON.stringify({ "message": message })
       }
     )
     if (response.ok) {
@@ -108,14 +112,14 @@ export const addSecret = (dispatch) => async (auth,message) => {
   }
 }
 
-export const deleteSecret = (dispatch) => async (auth,id) => {
+export const deleteSecret = (dispatch) => async (auth, id) => {
   dispatch({ type: 'delete_secret_request' });
   try {
     const response = await fetch('https://sturdy-space-carnival-4qjrgprwrp2p69-3001.app.github.dev' + '/api/private',
       {
         method: "DELETE",
         headers: { 'content-type': "application/json", 'Authorization': `Bearer ${auth}` },
-        body: JSON.stringify({"id": id})
+        body: JSON.stringify({ "id": id })
       }
     )
     if (response.ok) {
@@ -128,6 +132,29 @@ export const deleteSecret = (dispatch) => async (auth,id) => {
   }
   catch {
     dispatch({ type: 'delete_secret_fail', payload: { error: 'An error occurred during login' } })
+  }
+}
+
+export const editSecret = (dispatch) => async (auth, id, message) => {
+  dispatch({ type: 'edit_secret_request' });
+  try {
+    const response = await fetch('https://sturdy-space-carnival-4qjrgprwrp2p69-3001.app.github.dev' + '/api/private',
+      {
+        method: "PUT",
+        headers: { 'content-type': "application/json", 'Authorization': `Bearer ${auth}` },
+        body: JSON.stringify({ "id": id, "message": message })
+      }
+    )
+    if (response.ok) {
+      dispatch({ type: 'edit_secret_success', payload: { data: id, message: message } })
+    }
+    else {
+      const errorData = await response.json();
+      dispatch({ type: 'edit_secret_fail', payload: { error: errorData } });
+    }
+  }
+  catch {
+    dispatch({ type: 'edit_secret_fail', payload: { error: 'An error occurred during editing' } })
   }
 
 }

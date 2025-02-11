@@ -10,6 +10,7 @@ from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 import logging
+import bcrypt
 
 api = Blueprint('api', __name__)
 # Allow CORS requests to this API
@@ -31,20 +32,23 @@ def get_token():
     password = request.json.get("password",None)
     user = User.query.filter_by(email = email).first()
     if user:
-        password_check = user.password
-        if password == password_check:
+        allow = bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8'))
+        if allow:
             access_token = create_access_token(identity=email)
             return jsonify(access_token),201  
-    return jsonify('Email or password are incorrect, please try again'), 401
+        else:
+            return jsonify('Email or password are incorrect, please try again'), 401
+    return jsonify('Server error'), 500
 
 @api.route('/signup', methods=['POST'])
 def signup_user():
     email = request.json.get("email",None)
     password = request.json.get("password",None)
+    hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
     try:
         user = User.query.filter_by(email=email).first()
         if not user:
-            new_user = User(email=email,password=password,is_active=True)
+            new_user = User(email=email,password=hashed,is_active=True)
             db.session.add(new_user)
             db.session.commit()
             return jsonify('User registered correctly'),201
@@ -72,7 +76,7 @@ def view_secrets():
     
 @api.route('/private', methods=['POST'])
 @jwt_required()
-def add_secrets():
+def add_secret():
     current_user = get_jwt_identity();
     try:
         text = request.json.get("message",None)
@@ -86,7 +90,7 @@ def add_secrets():
 
 @api.route('/private', methods=['DELETE'])
 @jwt_required()
-def delete_secrets():
+def delete_secret():
     current_user = get_jwt_identity();
     try:
         secret_id = request.json.get("id",None)
@@ -95,6 +99,24 @@ def delete_secrets():
             db.session.delete(secret)
             db.session.commit()
             return jsonify('Deleted, successfully'), 201
+    except Exception as e:
+        return jsonify('Error deleting message message'), 400
+    
+@api.route('/private', methods=['PUT'])
+@jwt_required()
+def edit_secret():
+    current_user = get_jwt_identity();
+    try:
+        secret_id = request.json.get("id",None)
+        secret_message = request.json.get('message',None)
+        secret = Secret.query.filter_by(email=current_user,id=secret_id).first()
+        if secret:
+            secret.message = secret_message
+            db.session.commit()
+            return jsonify('Edited successfully'), 201
+        else:
+            return jsonify('Id not found in database'), 400
+    
     except Exception as e:
         return jsonify('Error deleting message message'), 400
     

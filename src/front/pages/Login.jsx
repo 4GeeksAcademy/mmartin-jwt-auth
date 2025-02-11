@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { logIn } from "../utils";
 import useGlobalReducer from "../hooks/useGlobalReducer";
 import { useNavigate } from "react-router-dom";
-import keyImg from '../assets/img/key.png'
 
 
 const Login = () => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [result, setResult] = useState('')
     const { store, dispatch } = useGlobalReducer()
     const goTo = useNavigate()
 
@@ -17,15 +17,19 @@ const Login = () => {
             await logIn(dispatch)(email, password)
         }
         else {
-            alert('Please input a valid email and password')
+            setResult('Please input a valid email and password')
         }
     }
     const handleCreate = () => {
         goTo('/signup')
     }
     useEffect(() => {
-        if (store.login && store.secrets) {
+        if (store.login && store.secrets && store.dashboard) {
             goTo('/dashboard')
+        }
+
+        if (store.login_status === 400) {
+            setResult('Something went wrong, check your email and/or password')
         }
     }, [dispatch, store.secrets]);
     return (
@@ -41,6 +45,7 @@ const Login = () => {
                     <div>or</div>
                     <button onClick={handleCreate}>Create an Account</button>
                 </div>
+                <div className="fs-5">{result}</div>
             </div>
 
             <div>
@@ -49,5 +54,6 @@ const Login = () => {
         </div>
     )
 }
+
 
 export default Login
